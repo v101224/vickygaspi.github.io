@@ -244,10 +244,20 @@
       lid.classList.add('open');
       setTimeout(() => { scene.classList.add('zoom-in'); }, 700);
       setTimeout(() => {
-        document.body.style.background = "white";
-        inside.classList.add('active');
-        moveToIndex(0, false);
-      }, 2200);
+  document.body.style.background = "white";
+  inside.classList.add('active');
+  moveToIndex(0, false);
+
+  // 🔥 FIX iPhone autoplay
+  setTimeout(() => {
+    document.querySelectorAll('video').forEach(v => {
+      v.muted = true;
+      v.playsInline = true;
+      v.play().catch(e => console.log('Autoplay bloqueado:', e));
+    });
+  }, 300);
+}, 2200);
+
     });
 
     closeBtn.addEventListener('click', () => {
