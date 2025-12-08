@@ -189,7 +189,7 @@
     }
 .nav-btn {
   position: absolute;
-  top: 80%;
+  top: 90%;
   transform: translateY(-50%);
   background: rgba(178, 31, 102, 0.7); /* Fondo semi-transparente del color del tema */
   color: white;
@@ -296,7 +296,7 @@
             </div>
 
             <div class="slide">
-                <img src="images/diciembre25.png">
+                <img src="images/diciembre25.jpg">
                 <p>💝 Por muchos m&aacute;s momentos y a&ntilde;os a tu lado</p>
             </div>
         </div>
@@ -342,42 +342,95 @@
     const track = document.getElementById('track');
     const slides = Array.from(track.children);
 
-    let index = 0, startX = 0, currentTranslate = 0, prevTranslate = 0;
+    let index = 0, startX = 0, startY = 0, currentTranslate = 0, prevTranslate = 0;
     let dragging = false, animationFrameId = null;
+    let isHorizontalSwipe = false;
 
     function getWidth() { return carousel.clientWidth; }
     function setTranslate(x, el = track) { el.style.transform = `translateX(${x}px)`; }
     function animation() {
         setTranslate(currentTranslate);
-        animationFrameId = requestAnimationFrame(animation);
+        if (dragging) {
+            animationFrameId = requestAnimationFrame(animation);
+        }
     }
 
-    function touchStart(x) {
-        startX = x;
+    function touchStart(e) {
+        if (e.type.includes('mouse')) {
+            startX = e.clientX;
+            startY = e.clientY;
+        } else {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        }
+        
         dragging = true;
+        isHorizontalSwipe = false;
         prevTranslate = -index * getWidth();
         currentTranslate = prevTranslate;
         cancelAnimationFrame(animationFrameId);
         animationFrameId = requestAnimationFrame(animation);
+        
+        // Para mouse, prevenir selección de texto durante el drag
+        if (e.type.includes('mouse')) {
+            e.preventDefault();
+        }
     }
 
-    function touchMove(x) {
+    function touchMove(e) {
         if (!dragging) return;
-        currentTranslate = prevTranslate + (x - startX);
+        
+        let currentX, currentY;
+        
+        if (e.type.includes('mouse')) {
+            currentX = e.clientX;
+            currentY = e.clientY;
+        } else {
+            currentX = e.touches[0].clientX;
+            currentY = e.touches[0].clientY;
+        }
+        
+        const deltaX = currentX - startX;
+        const deltaY = currentY - startY;
+        
+        // Determinar si el gesto es principalmente horizontal
+        if (!isHorizontalSwipe && Math.abs(deltaX) > Math.abs(deltaY)) {
+            isHorizontalSwipe = true;
+        }
+        
+        if (isHorizontalSwipe) {
+            currentTranslate = prevTranslate + deltaX;
+            // Prevenir scroll vertical durante swipe horizontal
+            e.preventDefault();
+        }
     }
 
-    function touchEnd(x) {
+    function touchEnd(e) {
         if (!dragging) return;
         dragging = false;
         cancelAnimationFrame(animationFrameId);
-
-        const moved = x - startX;
+        
+        let endX;
+        if (e.type.includes('mouse')) {
+            endX = e.clientX;
+        } else {
+            endX = e.changedTouches[0].clientX;
+        }
+        
+        const moved = endX - startX;
         const t = getWidth() * 0.15;
-
-        if (moved < -t && index < slides.length - 1) index++;
-        else if (moved > t && index > 0) index--;
-
+        
+        // Cambiar slide solo si el gesto fue horizontal
+        if (isHorizontalSwipe && Math.abs(moved) > t) {
+            if (moved < 0 && index < slides.length - 1) {
+                index++;
+            } else if (moved > 0 && index > 0) {
+                index--;
+            }
+        }
+        
         moveToIndex(index, true);
+        isHorizontalSwipe = false;
     }
 
     // ----------------------------
@@ -393,7 +446,6 @@
             v.playsInline = true;
 
             if (idx === i) {
-                // Tries to play, catches if the browser prevents it (e.g., policy)
                 v.play().catch(() => {});
             } else {
                 v.pause();
@@ -409,7 +461,7 @@
     }
 
     function moveToIndex(i, animate = true) {
-        index = i;
+        index = Math.max(0, Math.min(i, slides.length - 1));
         const x = -index * getWidth();
 
         track.style.transition = animate
@@ -419,10 +471,12 @@
         setTranslate(x);
 
         if (animate) {
-            track.addEventListener('transitionend', () => {
+            const handleTransitionEnd = () => {
                 track.style.transition = 'none';
                 playVideoAtIndex(index);
-            }, { once: true });
+                track.removeEventListener('transitionend', handleTransitionEnd);
+            };
+            track.addEventListener('transitionend', handleTransitionEnd);
         } else {
             playVideoAtIndex(index);
         }
@@ -435,31 +489,35 @@
     //      EVENTOS DE GESTOS Y BOTONES
     // ----------------------------
 
-    // Para evitar la navegación táctil accidental fuera del carrusel
-    track.addEventListener('touchstart', e => {
-        // Permitimos el default en el evento touchstart para que los videos puedan cargarse/reproducirse
-        touchStart(e.touches[0].clientX);
-    }, { passive: true }); // Usamos passive: true para que el navegador sepa que no bloquearemos el scroll
-    
-    // Aquí bloqueamos el default para asegurar que el movimiento sea de carrusel y no scroll
-    track.addEventListener('touchmove', e => {
-        // e.preventDefault(); // Si se usa preventDefault, se bloquea el scroll vertical. Ya lo maneja el CSS 'touch-action: none' en <body>.
-        touchMove(e.touches[0].clientX);
-    }, { passive: true });
+    // Aplicar eventos a TODO el carrusel (no solo al track)
+    carousel.addEventListener('touchstart', touchStart, { passive: false });
+    carousel.addEventListener('touchmove', touchMove, { passive: false });
+    carousel.addEventListener('touchend', touchEnd);
 
-    track.addEventListener('touchend', e => touchEnd(e.changedTouches[0].clientX));
+    carousel.addEventListener('mousedown', touchStart);
+    window.addEventListener('mousemove', touchMove);
+    window.addEventListener('mouseup', touchEnd);
 
-    // Eventos de ratón para desktop
-    track.addEventListener('mousedown', e => { e.preventDefault(); touchStart(e.clientX); });
-    window.addEventListener('mousemove', e => { if (dragging) touchMove(e.clientX); });
-    window.addEventListener('mouseup', e => { if (dragging) touchEnd(e.clientX); });
-
-    window.addEventListener('resize', () => moveToIndex(index, false));
-
+    // Prevenir comportamiento por defecto en elementos dentro del carrusel
     slides.forEach(s => {
         const img = s.querySelector('img');
-        if (img) img.addEventListener('dragstart', e => e.preventDefault());
+        const video = s.querySelector('video');
+        
+        if (img) {
+            img.addEventListener('dragstart', e => e.preventDefault());
+            img.addEventListener('mousedown', e => e.stopPropagation());
+        }
+        if (video) {
+            video.addEventListener('dragstart', e => e.preventDefault());
+            video.addEventListener('mousedown', e => e.stopPropagation());
+        }
     });
+
+    // Prevenir que los eventos en botones interfieran con el carrusel
+    prevBtn.addEventListener('mousedown', e => e.stopPropagation());
+    nextBtn.addEventListener('mousedown', e => e.stopPropagation());
+
+    window.addEventListener('resize', () => moveToIndex(index, false));
 
     // --- LISTENERS PARA LOS BOTONES DE NAVEGACIÓN ---
     prevBtn.addEventListener('click', () => {
@@ -473,6 +531,7 @@
 
     // Iniciar posición y estado de botones
     moveToIndex(0, false);
+    updateNavButtons();
 </script>
 </body>
 </html>
