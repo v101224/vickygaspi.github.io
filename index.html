@@ -221,6 +221,39 @@
 .next-btn {
   right: 10px;
 }
+.end {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 1s ease;
+  z-index: 5;
+  background: transparent; /* Fondo transparente */
+  pointer-events: none;
+}
+
+.end img {
+  width: 80%;
+  max-width: 400px;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+.end p {
+  color: #b21f66;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 0 20px;
+  font-family: "Poppins", sans-serif;
+}
+
 /* --------------------------------------------- */
 
   </style>
@@ -301,13 +334,13 @@
                 <img src="images/diciembre25.png">
                 <p>💝 Por muchos m&aacute;s momentos y a&ntilde;os a tu lado</p>
             </div>
-            <div class="slide">
-              <img src="images/extra.jpg">
-              <p>Cada d&iacute;a te amo m&aacute;s y m&aacute;s</p>
-            </div>
         </div>
     </div>
     <button id="closeBtn">Cerrar</button>
+</div>
+<div class="end">
+  <img src="images/extra.png">
+  <p>Cada d&iacute;a te amo m&aacute;s y m&aacute;s</p>
 </div>
 
   <script>
@@ -315,11 +348,12 @@
     const inside = document.getElementById('inside');
     const scene = document.getElementById('scene');
     const closeBtn = document.getElementById('closeBtn');
+    const endDiv = document.querySelector('.end');
 
-    // --- NUEVAS REFERENCIAS PARA LOS BOTONES ---
+    /* --- NUEVAS REFERENCIAS PARA LOS BOTONES ---
     const prevBtn = document.getElementById('prevBtn');
     const nextBtn = document.getElementById('nextBtn');
-    // -------------------------------------------
+    // -------------------------------------------*/
 
     scene.addEventListener('click', () => {
         lid.classList.add('open');
@@ -338,6 +372,12 @@
         document.body.style.background = "radial-gradient(circle at center, #ffd6e0 0%, #f0b3d1 100%)";
         moveToIndex(0, false);
         setTimeout(() => { scene.classList.remove('zoom-in'); lid.classList.remove('open'); }, 400);
+        setTimeout(() => {
+          scene.style.opacity = '0';
+        }, 2000);
+        setTimeout(() => {
+            endDiv.style.opacity = '1';
+        }, 2500);
     });
 
     // ----------------------------
@@ -460,11 +500,11 @@
         });
     }
 
-    // Función para habilitar/deshabilitar los botones de navegación
+    /* Función para habilitar/deshabilitar los botones de navegación
     function updateNavButtons() {
         prevBtn.disabled = index === 0;
         nextBtn.disabled = index === slides.length - 1;
-    }
+    }*/
 
     function moveToIndex(i, animate = true) {
         index = Math.max(0, Math.min(i, slides.length - 1));
@@ -487,9 +527,9 @@
             playVideoAtIndex(index);
         }
         
-        // Actualiza el estado de los botones
+        /* Actualiza el estado de los botones
         updateNavButtons();
-    }
+    }*/
 
     // ----------------------------
     //      EVENTOS DE GESTOS Y BOTONES
@@ -519,13 +559,13 @@
         }
     });
 
-    // Prevenir que los eventos en botones interfieran con el carrusel
+    /* Prevenir que los eventos en botones interfieran con el carrusel
     prevBtn.addEventListener('mousedown', e => e.stopPropagation());
-    nextBtn.addEventListener('mousedown', e => e.stopPropagation());
+    nextBtn.addEventListener('mousedown', e => e.stopPropagation());*/
 
     window.addEventListener('resize', () => moveToIndex(index, false));
 
-    // --- LISTENERS PARA LOS BOTONES DE NAVEGACIÓN ---
+    /* --- LISTENERS PARA LOS BOTONES DE NAVEGACIÓN ---
     prevBtn.addEventListener('click', () => {
         if (index > 0) moveToIndex(index - 1, true);
     });
@@ -537,7 +577,8 @@
 
     // Iniciar posición y estado de botones
     moveToIndex(0, false);
-    updateNavButtons();
+    updateNavButtons();*/
+    }
 </script>
 </body>
 </html>
