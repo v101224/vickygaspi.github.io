@@ -5,156 +5,300 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nuestro Primer Año 💞</title>
   <style>
-    * { box-sizing: border-box; }
+      * {
+        box-sizing: border-box;
+      }
 
-    body {
-      margin: 0;
-      height: 100vh;
-      overflow: hidden;
-      background: radial-gradient(circle at center, #ffd6e0 0%, #f0b3d1 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: "Poppins", sans-serif;
-      transition: background 2s ease;
-    }
+      body {
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+        background: radial-gradient(circle at center, #ffd6e0 0%, #f0b3d1 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Poppins", sans-serif;
+        transition: background 2s ease;
+      }
 
-    .scene {
-      position: relative;
-      width: 260px;
-      height: 230px;
-      perspective: 1000px;
-      cursor: pointer;
-      transition: transform 2s ease, opacity 2s ease;
-      z-index: 5;
-    }
+      .scene {
+        position: relative;
+        width: 260px;
+        height: 230px;
+        perspective: 1000px;
+        cursor: pointer;
+        transition: transform 2s ease, opacity 2s ease;
+        z-index: 5;
+      }
 
-    .zoom-in {
-      transform: scale(8);
-      opacity: 0;
-    }
+      .zoom-in {
+        transform: scale(8);
+        opacity: 0;
+      }
 
-    .heart-base {
-      background: url('images/Sin\ título-1.png') no-repeat center/contain;
-      position: absolute;
-      width: 260px;
-      height: 230px;
-    }
+      .heart-base {
+        background: url('images/Sin\ título-1.png') no-repeat center/contain;
+        position: absolute;
+        width: 260px;
+        height: 230px;
+      }
 
-    .heart-lid {
-      position: absolute;
-      width: 260px;
-      height: 230px;
-      background: url('https://images.emojiterra.com/google/noto-emoji/unicode-15/color/512px/1f49d.png') no-repeat center/contain;
-      transform-origin: top center;
-      transition: transform 1.2s ease;
-      z-index: 6;
-    }
+      .heart-lid {
+        position: absolute;
+        width: 260px;
+        height: 230px;
+        background: url('https://images.emojiterra.com/google/noto-emoji/unicode-15/color/512px/1f49d.png') no-repeat center/contain;
+        transform-origin: top center;
+        transition: transform 1.2s ease;
+        z-index: 6;
+      }
 
-    .heart-lid.open {
-      transform: rotateX(-130deg);
-    }
+      .heart-lid.open {
+        transform: rotateX(-130deg);
+      }
 
-    .inside {
-      position: fixed;
-      inset: 0;
-      background: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      opacity: 0;
-      pointer-events: none;
-      transform: scale(0.8);
-      transition: opacity 1.2s ease, transform 1.6s ease;
-      z-index: 20;
-    }
+      .inside {
+        position: fixed;
+        inset: 0;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.8);
+        transition: opacity 1.2s ease, transform 1.6s ease;
+        z-index: 20;
+      }
 
-    .inside.active {
-      opacity: 1;
-      pointer-events: all;
-      transform: scale(1);
-    }
+      .inside.active {
+        opacity: 1;
+        pointer-events: all;
+        transform: scale(1);
+      }
 
-    h1 {
-      color: #b21f66;
-      margin: 15px 0 5px;
-      font-size: 1.4rem;
-      text-align: center;
-    }
+      h1 {
+        color: #b21f66;
+        margin: 15px 0 5px;
+        font-size: 1.4rem;
+        text-align: center;
+      }
 
-    p {
-      color: #7a4e7c;
-      margin: 0 15px 10px;
-      text-align: center;
-      font-size: 0.9rem;
-    }
+      p {
+        color: #7a4e7c;
+        margin: 0 15px 10px;
+        text-align: center;
+        font-size: 0.9rem;
+      }
 
-    .carousel {
-      display: flex;
-      overflow: hidden;
-      width: 100%;
-      height: calc(100vh - 180px);
-      position: relative;
-      touch-action: pan-y;
-    }
+      .carousel {
+        display: flex;
+        overflow: hidden;
+        width: 100%;
+        height: calc(100vh - 180px);
+        position: relative;
+        touch-action: pan-y;
+      }
 
-    .carousel-track {
-      display: flex;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.35s cubic-bezier(.22,.9,.27,1);
-      will-change: transform;
-      -webkit-tap-highlight-color: transparent;
-    }
+      .nav-btn {
+        position: absolute;
+        top: 50%; /* Centra verticalmente */
+        transform: translateY(-50%);
+        background: rgba(178, 31, 102, 0.7); /* Fondo semi-transparente del color del tema */
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        z-index: 10; /* Asegura que estén por encima del carrusel */
+        transition: background 0.3s, opacity 0.3s;
+        user-select: none; /* Evita la selección de texto */
+        -webkit-tap-highlight-color: transparent; /* Mejora la experiencia móvil */
+      }
 
-    .slide {
-      flex: 0 0 100%;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 10px;
-    }
+      .nav-btn:hover {
+        background: #8b1450;
+      }
 
-    .slide img, .slide video {
+      .nav-btn:disabled {
+        opacity: 0.5; /* Opacidad reducida cuando están deshabilitados */
+        cursor: default;
+      }
+
+      .prev-btn {
+        left: 10px;
+      }
+
+      .next-btn {
+        right: 10px;
+      }
+
+      .carousel-track {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.35s cubic-bezier(.22,.9,.27,1);
+        will-change: transform;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      .slide {
+        flex: 0 0 100%;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 10px;
+      }
+
+      .slide img,
+      .slide video {
+        width: 90%;
+        max-height: 60vh;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        user-select: none;
+      }
+
+      .slide p {
+        margin-top: 10px;
+        color: #5a3b60;
+        font-size: 0.95rem;
+      }
+
+      button {
+        background: #b21f66;
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 25px;
+        font-size: 1rem;
+        margin: 20px 0;
+        cursor: pointer;
+        transition: background 0.3s;
+        z-index: 30;
+      }
+
+      button:hover {
+        background: #8b1450;
+      }
+
+      footer {
+        color: #777;
+        font-size: 0.8rem;
+        margin-bottom: 10px;
+      }
+
+      .nav-btn {
+        position: absolute;
+        top: 90%;
+        transform: translateY(-50%);
+        background: rgba(178, 31, 102, 0.7); /* Fondo semi-transparente del color del tema */
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: bold;
+        z-index: 10;
+        transition: background 0.3s, opacity 0.3s;
+        user-select: none; /* Evita la selección de texto */
+        -webkit-tap-highlight-color: transparent; /* Mejora la experiencia móvil */
+      }
+
+      .nav-btn:hover {
+        background: #8b1450;
+      }
+
+      .nav-btn:disabled {
+        opacity: 0.3; /* Opacidad reducida cuando están deshabilitados */
+        cursor: default;
+      }
+
+      .prev-btn {
+        left: 10px;
+      }
+
+      .next-btn {
+        right: 10px;
+      }
+
+      .end {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 1s ease;
+        z-index: 5;
+        background: transparent; /* Fondo transparente */
+        pointer-events: none;
+      }
+
+      .end img {
+        width: 80%;
+        max-width: 400px;
+        border-radius: 20px;
+        margin-bottom: 20px;
+      }
+
+      .end p {
+        color: #b21f66;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        padding: 0 20px;
+        font-family: "Poppins", sans-serif;
+      }
+
+      /* Estilos para el mensaje de aniversario */
+      .container {
       width: 90%;
-      max-height: 60vh;
-      object-fit: cover;
-      border-radius: 20px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      user-select: none;
-    }
+      max-width: 400px;
+      text-align: center;
+      }
 
-    .slide p {
-      margin-top: 10px;
-      color: #5a3b60;
-      font-size: 0.95rem;
-    }
+      .aniversario {
+          background: white;
+          padding: 20px;
+          border-radius: 20px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+          font-size: 1.3rem;
+          font-weight: bold;
+          animation: aparecer 1s ease forwards;
+          opacity: 0;
+      }
 
-    button {
-      background: #b21f66;
-      color: white;
-      border: none;
-      padding: 10px 25px;
-      border-radius: 25px;
-      font-size: 1rem;
-      margin: 20px 0;
-      cursor: pointer;
-      transition: background 0.3s;
-      z-index: 30;
-    }
+      /* Animación */
+      @keyframes aparecer {
+          from {
+              transform: translateY(30px);
+              opacity: 0;
+          }
+          to {
+              transform: translateY(0);
+              opacity: 1;
+          }
+      }
 
-    button:hover { background: #8b1450; }
+      .oculto {
+          display: none;
+      }
 
-    footer {
-      color: #777;
-      font-size: 0.8rem;
-      margin-bottom: 10px;
-    }
+      /* --------------------------------------------- */
+
   </style>
 </head>
 <body>
@@ -164,138 +308,345 @@
   </div>
 
   <div class="inside" id="inside">
-    <h1>Nuestro primer a&ntilde;ito💫</h1>
-    <p>Por muchos m&aacute;s juntitos.</p>
+    <h1>Nuestro primer a&ntilde;ito</h1>
+    <p>Por muchos m&aacute;s juntitos</p>
 
-    <div class="carousel" id="carousel">
-      <div class="carousel-track" id="track">
-        <div class="slide">
-          <img src="images/diciembre.jpg" alt="foto1">
-          <p>✨ Los ojitos que me enamoraron</p>
-        </div>
-
-        <div class="slide">
-          <video src="images/enero.mp4" autoplay muted loop playsinline></video>
-          <p>💗 Como no enamorarme con esa carita</p>
-        </div>
-
-        <div class="slide">
-          <video src="images/febrero.mp4" autoplay muted loop playsinline></video>
-          <p>💋 Cada d&iacute;a me dan m&aacute;s ganas de besar esa boquita</p>
-        </div>
-
-        <div class="slide">
-          <video src="images/marzo.mp4" autoplay muted loop playsinline></video>
-          <p>💞 Ni picasso puede pintar obras tan hermosas como tu cuerpito</p>
-        </div>
-
-        <div class="slide">
-          <img src="images/abril.jpeg">
-          <p>🥰 Todav&iacute;a me pongo nervioso al verte</p>
-        </div>
-
-        <div class="slide">
-          <video src="images/junio.mp4" autoplay muted loop playsinline></video>
-          <p>💘 Cada d&iacute;a me enamoro m&aacute;s de la hermosa persona que sos</p>
-        </div>
-
-        <div class="slide">
-          <img src="images/julio.png">
-          <p>💋 Tus besitos me hechizan</p>
-        </div>
-
-        <div class="slide">
-          <img src="images/agosto.jpg">
-          <p>🌹 Cada vez que veo esa carita me roba el corazon</p>
-        </div>
-
-        <div class="slide">
-          <img src="images/setiembre.jpg">
-          <p>❣ Me emociona cada uno de tus te amo</p>
-        </div>
-
-        <div class="slide">
-          <img src="images/octubre.png">
-          <p>💫 Gracias por todos los momentos hermosos</p>
-        </div>
-
-        <div class="slide">
-          <img src="images/noviembre.jpg">
-          <p>💕 Gracias por hacerme tan bien</p>
-        </div>
-
-        <div class="slide">
-          <img src="images/diciembre25.jpg">
-          <p>💝 Por muchos m&aacute;s momentos y a&ntilde;os a tu lado</p>
-        </div>
+    <div class="container">
+      <div id="mensajeAniversario" class="aniversario oculto">
+          <h5>¡Feliz mesiversario mi amor!🎉</h4>  
+          <h6>Gracias otro mes hermoso juntos.</h6>
       </div>
     </div>
 
+    <div class="carousel" id="carousel">
+        <!--
+        <button id="prevBtn" class="nav-btn prev-btn"><</button>
+        <button id="nextBtn" class="nav-btn next-btn">></button> 
+        -->
+
+        <div class="carousel-track" id="track">
+            <div class="slide">
+                <img src="images/diciembre.jpg" alt="foto1">
+                <p>✨ Los ojitos que me enamoraron</p>
+            </div>
+
+            <div class="slide">
+                <video src="images/enero.mp4" autoplay muted loop playsinline></video>
+                <p>🌹 Como no enamorarme con esos ojitos</p>
+            </div>
+
+            <div class="slide">
+                <video src="images/febrero.mp4" autoplay muted loop playsinline></video>
+                <p>💕 Me encanta pasar tiempo contigo</p>
+            </div>
+
+            <div class="slide">
+                <video src="images/marzo.mp4" autoplay muted loop playsinline></video>
+                <p>💞 No hay paisaje m&aacute;s hermoso que tu cuerpo</p>
+            </div>
+
+            <div class="slide">
+                <img src="images/abril.jpg">
+                <p>🥰 Todav&iacute;a me pongo nervioso al verte</p>
+            </div>
+
+            <div class="slide">
+                <video src="images/junio.mp4" autoplay muted loop playsinline></video>
+                <p>💘 Cada d&iacute;a me enamoro m&aacute;s de la hermosa persona que sos</p>
+            </div>
+
+            <div class="slide">
+                <img src="images/julio.png">
+                <p>💋 Cada d&iacute;a me dan m&aacute;s ganas de besar esa boquita</p>
+            </div>
+
+            <div class="slide">
+                <img src="images/agosto.jpg">
+                <p>🌹 Cada vez que veo esa carita me roba el corazon</p>
+            </div>
+
+            <div class="slide">
+                <img src="images/septiembre.jpg">
+                <p>❣ Me emociona cada uno de tus te amo</p>
+            </div>
+
+            <div class="slide">
+                <img src="images/octubre.png">
+                <p>💫 Gracias por todos los momentos hermosos</p>
+            </div>
+
+            <div class="slide">
+                <img src="images/noviembre.jpg">
+                <p>💕 Gracias por hacerme tan bien</p>
+            </div>
+
+            <div class="slide">
+                <img src="images/diciembre25.png">
+                <p>💝 Por muchos m&aacute;s momentos y a&ntilde;os a tu lado</p>
+            </div>
+
+            <div class="slide">
+                <img src="images/IMG_0154.jpeg">
+                <p>💝 No hay nada m&aacute;s lindo que mirar esa carita</p>
+            </div>
+        </div>
+    </div>
     <button id="closeBtn">Cerrar</button>
-  </div>
+</div>
+<div class="end">
+  <img src="images/extra.png">
+  <p>Cada d&iacute;a te amo m&aacute;s y m&aacute;s</p>
+</div>
 
   <script>
     const lid = document.getElementById('lid');
     const inside = document.getElementById('inside');
     const scene = document.getElementById('scene');
     const closeBtn = document.getElementById('closeBtn');
+    const endDiv = document.querySelector('.end');
+
+    /* --- NUEVAS REFERENCIAS PARA LOS BOTONES ---
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    // -------------------------------------------*/
 
     scene.addEventListener('click', () => {
-      lid.classList.add('open');
-      setTimeout(() => { scene.classList.add('zoom-in'); }, 700);
-      setTimeout(() => {
-        document.body.style.background = "white";
-        inside.classList.add('active');
-        moveToIndex(0, false);
-      }, 2200);
+        lid.classList.add('open');
+        setTimeout(() => { scene.classList.add('zoom-in'); }, 700);
+
+        setTimeout(() => {
+            document.body.style.background = "white";
+            inside.classList.add('active');
+            moveToIndex(0, false);
+            playVideoAtIndex(0);
+        }, 2200);
     });
 
     closeBtn.addEventListener('click', () => {
-      inside.classList.remove('active');
-      document.body.style.background = "radial-gradient(circle at center, #ffd6e0 0%, #f0b3d1 100%)";
-      moveToIndex(0, false);
-      setTimeout(() => { scene.classList.remove('zoom-in'); lid.classList.remove('open'); }, 400);
+        inside.classList.remove('active');
+        document.body.style.background = "radial-gradient(circle at center, #ffd6e0 0%, #f0b3d1 100%)";
+        moveToIndex(0, false);
+        setTimeout(() => { scene.classList.remove('zoom-in'); lid.classList.remove('open'); }, 400);
+        setTimeout(() => {
+          scene.style.opacity = '0';
+        }, 2000);
+        setTimeout(() => {
+            endDiv.style.opacity = '1';
+        }, 2500);
     });
+
+    // ----------------------------
+    //        CARRUSEL / SWIPE
+    // ----------------------------
 
     const carousel = document.getElementById('carousel');
     const track = document.getElementById('track');
     const slides = Array.from(track.children);
-    let index = 0, startX = 0, currentTranslate = 0, prevTranslate = 0, dragging = false, animationFrameId = null;
+
+    let index = 0, startX = 0, startY = 0, currentTranslate = 0, prevTranslate = 0;
+    let dragging = false, animationFrameId = null;
+    let isHorizontalSwipe = false;
 
     function getWidth() { return carousel.clientWidth; }
     function setTranslate(x, el = track) { el.style.transform = `translateX(${x}px)`; }
-    function animation() { setTranslate(currentTranslate); animationFrameId = requestAnimationFrame(animation); }
-
-    function touchStart(x) { startX = x; dragging = true; prevTranslate = -index * getWidth(); currentTranslate = prevTranslate; cancelAnimationFrame(animationFrameId); animationFrameId = requestAnimationFrame(animation); }
-    function touchMove(x) { if (!dragging) return; currentTranslate = prevTranslate + (x - startX); }
-    function touchEnd(x) {
-      if (!dragging) return;
-      dragging = false;
-      cancelAnimationFrame(animationFrameId);
-      const moved = x - startX, t = getWidth() * 0.15;
-      if (moved < -t && index < slides.length - 1) index++;
-      else if (moved > t && index > 0) index--;
-      moveToIndex(index, true);
+    function animation() {
+        setTranslate(currentTranslate);
+        if (dragging) {
+            animationFrameId = requestAnimationFrame(animation);
+        }
     }
+
+    function touchStart(e) {
+        if (e.type.includes('mouse')) {
+            startX = e.clientX;
+            startY = e.clientY;
+        } else {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        }
+        
+        dragging = true;
+        isHorizontalSwipe = false;
+        prevTranslate = -index * getWidth();
+        currentTranslate = prevTranslate;
+        cancelAnimationFrame(animationFrameId);
+        animationFrameId = requestAnimationFrame(animation);
+        
+        // Para mouse, prevenir selección de texto durante el drag
+        if (e.type.includes('mouse')) {
+            e.preventDefault();
+        }
+    }
+
+    function touchMove(e) {
+        if (!dragging) return;
+        
+        let currentX, currentY;
+        
+        if (e.type.includes('mouse')) {
+            currentX = e.clientX;
+            currentY = e.clientY;
+        } else {
+            currentX = e.touches[0].clientX;
+            currentY = e.touches[0].clientY;
+        }
+        
+        const deltaX = currentX - startX;
+        const deltaY = currentY - startY;
+        
+        // Determinar si el gesto es principalmente horizontal
+        if (!isHorizontalSwipe && Math.abs(deltaX) > Math.abs(deltaY)) {
+            isHorizontalSwipe = true;
+        }
+        
+        if (isHorizontalSwipe) {
+            currentTranslate = prevTranslate + deltaX;
+            // Prevenir scroll vertical durante swipe horizontal
+            e.preventDefault();
+        }
+    }
+
+    function touchEnd(e) {
+        if (!dragging) return;
+        dragging = false;
+        cancelAnimationFrame(animationFrameId);
+        
+        let endX;
+        if (e.type.includes('mouse')) {
+            endX = e.clientX;
+        } else {
+            endX = e.changedTouches[0].clientX;
+        }
+        
+        const moved = endX - startX;
+        const t = getWidth() * 0.15;
+        
+        // Cambiar slide solo si el gesto fue horizontal
+        if (isHorizontalSwipe && Math.abs(moved) > t) {
+            if (moved < 0 && index < slides.length - 1) {
+                index++;
+            } else if (moved > 0 && index > 0) {
+                index--;
+            }
+        }
+        
+        moveToIndex(index, true);
+        isHorizontalSwipe = false;
+    }
+
+    // ----------------------------
+    //      REPRODUCCIÓN DE VIDEOS Y BOTONES
+    // ----------------------------
+
+    function playVideoAtIndex(i) {
+        slides.forEach((slide, idx) => {
+            const v = slide.querySelector("video");
+            if (!v) return;
+
+            v.muted = true;
+            v.playsInline = true;
+
+            if (idx === i) {
+                v.play().catch(() => {});
+            } else {
+                v.pause();
+                v.currentTime = 0;
+            }
+        });
+    }
+
+    /* Función para habilitar/deshabilitar los botones de navegación
+    function updateNavButtons() {
+        prevBtn.disabled = index === 0;
+        nextBtn.disabled = index === slides.length - 1;
+    }*/
 
     function moveToIndex(i, animate = true) {
-      index = i;
-      const x = -index * getWidth();
-      track.style.transition = animate ? 'transform 0.35s cubic-bezier(.22,.9,.27,1)' : 'none';
-      setTranslate(x);
-      if (animate) track.addEventListener('transitionend', () => { track.style.transition = 'none'; }, { once: true });
-    }
+        index = Math.max(0, Math.min(i, slides.length - 1));
+        const x = -index * getWidth();
 
-    track.addEventListener('touchstart', e => touchStart(e.touches[0].clientX), { passive: true });
-    track.addEventListener('touchmove', e => touchMove(e.touches[0].clientX), { passive: true });
-    track.addEventListener('touchend', e => touchEnd(e.changedTouches[0].clientX));
-    track.addEventListener('mousedown', e => { e.preventDefault(); touchStart(e.clientX); });
-    window.addEventListener('mousemove', e => { if (dragging) touchMove(e.clientX); });
-    window.addEventListener('mouseup', e => { if (dragging) touchEnd(e.clientX); });
+        track.style.transition = animate
+            ? 'transform 0.35s cubic-bezier(.22,.9,.27,1)'
+            : 'none';
+
+        setTranslate(x);
+
+        if (animate) {
+            const handleTransitionEnd = () => {
+                track.style.transition = 'none';
+                playVideoAtIndex(index);
+                track.removeEventListener('transitionend', handleTransitionEnd);
+            };
+            track.addEventListener('transitionend', handleTransitionEnd);
+        } else {
+            playVideoAtIndex(index);
+        }
+        
+        /* Actualiza el estado de los botones
+        updateNavButtons();
+    }*/
+
+    // ----------------------------
+    //      EVENTOS DE GESTOS Y BOTONES
+    // ----------------------------
+
+    // Aplicar eventos a TODO el carrusel (no solo al track)
+    carousel.addEventListener('touchstart', touchStart, { passive: false });
+    carousel.addEventListener('touchmove', touchMove, { passive: false });
+    carousel.addEventListener('touchend', touchEnd);
+
+    carousel.addEventListener('mousedown', touchStart);
+    window.addEventListener('mousemove', touchMove);
+    window.addEventListener('mouseup', touchEnd);
+
+    // Prevenir comportamiento por defecto en elementos dentro del carrusel
+    slides.forEach(s => {
+        const img = s.querySelector('img');
+        const video = s.querySelector('video');
+        
+        if (img) {
+            img.addEventListener('dragstart', e => e.preventDefault());
+            img.addEventListener('mousedown', e => e.stopPropagation());
+        }
+        if (video) {
+            video.addEventListener('dragstart', e => e.preventDefault());
+            video.addEventListener('mousedown', e => e.stopPropagation());
+        }
+    });
+
+    /* Prevenir que los eventos en botones interfieran con el carrusel
+    prevBtn.addEventListener('mousedown', e => e.stopPropagation());
+    nextBtn.addEventListener('mousedown', e => e.stopPropagation());*/
+
     window.addEventListener('resize', () => moveToIndex(index, false));
 
-    slides.forEach(s => { const img = s.querySelector('img'); if (img) img.addEventListener('dragstart', e => e.preventDefault()); });
+    /* --- LISTENERS PARA LOS BOTONES DE NAVEGACIÓN ---
+    prevBtn.addEventListener('click', () => {
+        if (index > 0) moveToIndex(index - 1, true);
+    });
+
+    nextBtn.addEventListener('click', () => {
+        if (index < slides.length - 1) moveToIndex(index + 1, true);
+    });
+    // ------------------------------------------------
+
+    // Iniciar posición y estado de botones
     moveToIndex(0, false);
-  </script>
+    updateNavButtons();*/
+
+    // Verificar si es el mes del aniversario
+    const fechaAniversario = new Date(2024, 11, 10); // Año, Mes (0-11), Día
+    const hoy = new Date();
+    const mesHoy = hoy.getMonth();
+    const mesAniversario = fechaAniversario.getMonth();
+
+    if (mesHoy === mesAniversario) {
+        document.getElementById("mensajeAniversario").classList.remove("oculto");
+    }
+
+
+    }
+</script>
 </body>
 </html>
+
