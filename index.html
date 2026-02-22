@@ -5,256 +5,299 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Nuestro Primer Año 💞</title>
   <style>
-    * { box-sizing: border-box; }
+      * {
+        box-sizing: border-box;
+      }
 
-    body {
-      margin: 0;
-      height: 100vh;
-      overflow: hidden;
-      background: radial-gradient(circle at center, #ffd6e0 0%, #f0b3d1 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: "Poppins", sans-serif;
-      transition: background 2s ease;
-    }
+      body {
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+        background: radial-gradient(circle at center, #ffd6e0 0%, #f0b3d1 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Poppins", sans-serif;
+        transition: background 2s ease;
+      }
 
-    .scene {
-      position: relative;
-      width: 260px;
-      height: 230px;
-      perspective: 1000px;
-      cursor: pointer;
-      transition: transform 2s ease, opacity 2s ease;
-      z-index: 5;
-    }
+      .scene {
+        position: relative;
+        width: 260px;
+        height: 230px;
+        perspective: 1000px;
+        cursor: pointer;
+        transition: transform 2s ease, opacity 2s ease;
+        z-index: 5;
+      }
 
-    .zoom-in {
-      transform: scale(8);
-      opacity: 0;
-    }
+      .zoom-in {
+        transform: scale(8);
+        opacity: 0;
+      }
 
-    .heart-base {
-      background: url('images/Sin\ título-1.png') no-repeat center/contain;
-      position: absolute;
-      width: 260px;
-      height: 230px;
-    }
+      .heart-base {
+        background: url('images/Sin\ título-1.png') no-repeat center/contain;
+        position: absolute;
+        width: 260px;
+        height: 230px;
+      }
 
-    .heart-lid {
-      position: absolute;
-      width: 260px;
-      height: 230px;
-      background: url('https://images.emojiterra.com/google/noto-emoji/unicode-15/color/512px/1f49d.png') no-repeat center/contain;
-      transform-origin: top center;
-      transition: transform 1.2s ease;
-      z-index: 6;
-    }
+      .heart-lid {
+        position: absolute;
+        width: 260px;
+        height: 230px;
+        background: url('https://images.emojiterra.com/google/noto-emoji/unicode-15/color/512px/1f49d.png') no-repeat center/contain;
+        transform-origin: top center;
+        transition: transform 1.2s ease;
+        z-index: 6;
+      }
 
-    .heart-lid.open {
-      transform: rotateX(-130deg);
-    }
+      .heart-lid.open {
+        transform: rotateX(-130deg);
+      }
 
-    .inside {
-      position: fixed;
-      inset: 0;
-      background: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      opacity: 0;
-      pointer-events: none;
-      transform: scale(0.8);
-      transition: opacity 1.2s ease, transform 1.6s ease;
-      z-index: 20;
-    }
+      .inside {
+        position: fixed;
+        inset: 0;
+        background: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        opacity: 0;
+        pointer-events: none;
+        transform: scale(0.8);
+        transition: opacity 1.2s ease, transform 1.6s ease;
+        z-index: 20;
+      }
 
-    .inside.active {
-      opacity: 1;
-      pointer-events: all;
-      transform: scale(1);
-    }
+      .inside.active {
+        opacity: 1;
+        pointer-events: all;
+        transform: scale(1);
+      }
 
-    h1 {
-      color: #b21f66;
-      margin: 15px 0 5px;
-      font-size: 1.4rem;
-      text-align: center;
-    }
+      h1 {
+        color: #b21f66;
+        margin: 15px 0 5px;
+        font-size: 1.4rem;
+        text-align: center;
+      }
 
-    p {
-      color: #7a4e7c;
-      margin: 0 15px 10px;
-      text-align: center;
-      font-size: 0.9rem;
-    }
+      p {
+        color: #7a4e7c;
+        margin: 0 15px 10px;
+        text-align: center;
+        font-size: 0.9rem;
+      }
 
-    .carousel {
-      display: flex;
-      overflow: hidden;
-      width: 100%;
-      height: calc(100vh - 180px);
-      position: relative;
-      touch-action: pan-y;
-    }
+      .carousel {
+        display: flex;
+        overflow: hidden;
+        width: 100%;
+        height: calc(100vh - 180px);
+        position: relative;
+        touch-action: pan-y;
+      }
 
-    .nav-btn {
-  position: absolute;
-  top: 50%; /* Centra verticalmente */
-  transform: translateY(-50%);
-  background: rgba(178, 31, 102, 0.7); /* Fondo semi-transparente del color del tema */
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  z-index: 10; /* Asegura que estén por encima del carrusel */
-  transition: background 0.3s, opacity 0.3s;
-}
+      .nav-btn {
+        position: absolute;
+        top: 50%; /* Centra verticalmente */
+        transform: translateY(-50%);
+        background: rgba(178, 31, 102, 0.7); /* Fondo semi-transparente del color del tema */
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        z-index: 10; /* Asegura que estén por encima del carrusel */
+        transition: background 0.3s, opacity 0.3s;
+        user-select: none; /* Evita la selección de texto */
+        -webkit-tap-highlight-color: transparent; /* Mejora la experiencia móvil */
+      }
 
-.nav-btn:hover {
-  background: #8b1450;
-}
+      .nav-btn:hover {
+        background: #8b1450;
+      }
 
-.nav-btn:disabled {
-  opacity: 0.5; /* Opacidad reducida cuando están deshabilitados */
-  cursor: default;
-}
+      .nav-btn:disabled {
+        opacity: 0.5; /* Opacidad reducida cuando están deshabilitados */
+        cursor: default;
+      }
 
-.prev-btn {
-  left: 10px;
-}
+      .prev-btn {
+        left: 10px;
+      }
 
-.next-btn {
-  right: 10px;
-}
+      .next-btn {
+        right: 10px;
+      }
 
-    .carousel-track {
-      display: flex;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.35s cubic-bezier(.22,.9,.27,1);
-      will-change: transform;
-      -webkit-tap-highlight-color: transparent;
-    }
+      .carousel-track {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.35s cubic-bezier(.22,.9,.27,1);
+        will-change: transform;
+        -webkit-tap-highlight-color: transparent;
+      }
 
-    .slide {
-      flex: 0 0 100%;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 10px;
-    }
+      .slide {
+        flex: 0 0 100%;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 10px;
+      }
 
-    .slide img, .slide video {
+      .slide img,
+      .slide video {
+        width: 90%;
+        max-height: 60vh;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        user-select: none;
+      }
+
+      .slide p {
+        margin-top: 10px;
+        color: #5a3b60;
+        font-size: 0.95rem;
+      }
+
+      button {
+        background: #b21f66;
+        color: white;
+        border: none;
+        padding: 10px 25px;
+        border-radius: 25px;
+        font-size: 1rem;
+        margin: 20px 0;
+        cursor: pointer;
+        transition: background 0.3s;
+        z-index: 30;
+      }
+
+      button:hover {
+        background: #8b1450;
+      }
+
+      footer {
+        color: #777;
+        font-size: 0.8rem;
+        margin-bottom: 10px;
+      }
+
+      .nav-btn {
+        position: absolute;
+        top: 90%;
+        transform: translateY(-50%);
+        background: rgba(178, 31, 102, 0.7); /* Fondo semi-transparente del color del tema */
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 20px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: bold;
+        z-index: 10;
+        transition: background 0.3s, opacity 0.3s;
+        user-select: none; /* Evita la selección de texto */
+        -webkit-tap-highlight-color: transparent; /* Mejora la experiencia móvil */
+      }
+
+      .nav-btn:hover {
+        background: #8b1450;
+      }
+
+      .nav-btn:disabled {
+        opacity: 0.3; /* Opacidad reducida cuando están deshabilitados */
+        cursor: default;
+      }
+
+      .prev-btn {
+        left: 10px;
+      }
+
+      .next-btn {
+        right: 10px;
+      }
+
+      .end {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 1s ease;
+        z-index: 5;
+        background: transparent; /* Fondo transparente */
+        pointer-events: none;
+      }
+
+      .end img {
+        width: 80%;
+        max-width: 400px;
+        border-radius: 20px;
+        margin-bottom: 20px;
+      }
+
+      .end p {
+        color: #b21f66;
+        font-size: 1.5rem;
+        font-weight: bold;
+        text-align: center;
+        padding: 0 20px;
+        font-family: "Poppins", sans-serif;
+      }
+
+      /* Estilos para el mensaje de aniversario */
+      .container {
       width: 90%;
-      max-height: 60vh;
-      object-fit: cover;
-      border-radius: 20px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      user-select: none;
-    }
+      max-width: 400px;
+      text-align: center;
+      }
 
-    .slide p {
-      margin-top: 10px;
-      color: #5a3b60;
-      font-size: 0.95rem;
-    }
+      .aniversario {
+          background: white;
+          padding: 20px;
+          border-radius: 20px;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+          font-size: 1.3rem;
+          font-weight: bold;
+          animation: aparecer 1s ease forwards;
+          opacity: 0;
+      }
 
-    button {
-      background: #b21f66;
-      color: white;
-      border: none;
-      padding: 10px 25px;
-      border-radius: 25px;
-      font-size: 1rem;
-      margin: 20px 0;
-      cursor: pointer;
-      transition: background 0.3s;
-      z-index: 30;
-    }
+      /* Animación */
+      @keyframes aparecer {
+          from {
+              transform: translateY(30px);
+              opacity: 0;
+          }
+          to {
+              transform: translateY(0);
+              opacity: 1;
+          }
+      }
 
-    button:hover { background: #8b1450; }
+      .oculto {
+          display: none;
+      }
 
-    footer {
-      color: #777;
-      font-size: 0.8rem;
-      margin-bottom: 10px;
-    }
-.nav-btn {
-  position: absolute;
-  top: 90%;
-  transform: translateY(-50%);
-  background: rgba(178, 31, 102, 0.7); /* Fondo semi-transparente del color del tema */
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  font-weight: bold;
-  z-index: 10;
-  transition: background 0.3s, opacity 0.3s;
-  user-select: none; /* Evita la selección de texto */
-  -webkit-tap-highlight-color: transparent; /* Mejora la experiencia móvil */
-}
-
-.nav-btn:hover {
-  background: #8b1450;
-}
-
-.nav-btn:disabled {
-  opacity: 0.3; /* Opacidad reducida cuando están deshabilitados */
-  cursor: default;
-}
-
-.prev-btn {
-  left: 10px;
-}
-
-.next-btn {
-  right: 10px;
-}
-.end {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 1s ease;
-  z-index: 5;
-  background: transparent; /* Fondo transparente */
-  pointer-events: none;
-}
-
-.end img {
-  width: 80%;
-  max-width: 400px;
-  border-radius: 20px;
-  margin-bottom: 20px;
-}
-
-.end p {
-  color: #b21f66;
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-align: center;
-  padding: 0 20px;
-  font-family: "Poppins", sans-serif;
-}
-
-/* --------------------------------------------- */
+      /* --------------------------------------------- */
 
   </style>
 </head>
@@ -265,8 +308,15 @@
   </div>
 
   <div class="inside" id="inside">
-    <h1>Nuestro primer a&ntilde;ito💫</h1>
+    <h1>Nuestro primer a&ntilde;ito</h1>
     <p>Por muchos m&aacute;s juntitos</p>
+
+    <div class="container">
+      <div id="mensajeAniversario" class="aniversario oculto">
+          <h5>¡Feliz mesiversario mi amor!🎉</h4>  
+          <h6>Gracias otro mes hermoso juntos.</h6>
+      </div>
+    </div>
 
     <div class="carousel" id="carousel">
         <!--
@@ -583,7 +633,20 @@
     // Iniciar posición y estado de botones
     moveToIndex(0, false);
     updateNavButtons();*/
+
+    // Verificar si es el mes del aniversario
+    const fechaAniversario = new Date(2024, 11, 10); // Año, Mes (0-11), Día
+    const hoy = new Date();
+    const mesHoy = hoy.getMonth();
+    const mesAniversario = fechaAniversario.getMonth();
+
+    if (mesHoy === mesAniversario) {
+        document.getElementById("mensajeAniversario").classList.remove("oculto");
+    }
+
+
     }
 </script>
 </body>
 </html>
+
