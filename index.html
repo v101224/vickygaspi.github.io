@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nuestro Primer Año 💞</title>
+  <title>Nuestro Primer AÃ±o ðŸ’ž</title>
   <style>
       * {
         box-sizing: border-box;
@@ -35,9 +35,18 @@
         transform: scale(8);
         opacity: 0;
       }
+      
+      /* CORAZÃ“N */
+      .heart{
+        width:100%;
+        height:100%;
+        background:red;
+        clip-path: path("M130 220 C 20 140, 0 70, 65 40 C 100 20, 130 50, 130 50 C 130 50, 160 20, 195 40 C 260 70, 240 140, 130 220 Z");
+        box-shadow:0 10px 30px rgba(0,0,0,0.3);
+      }
 
       .heart-base {
-        background: url('images/Sin\ título-1.png') no-repeat center/contain;
+        background: url('images/Sin título-1.png') no-repeat center/contain;
         position: absolute;
         width: 260px;
         height: 230px;
@@ -112,10 +121,10 @@
         border-radius: 20px;
         cursor: pointer;
         font-size: 0.9rem;
-        z-index: 10; /* Asegura que estén por encima del carrusel */
+        z-index: 10; /* Asegura que estÃ©n por encima del carrusel */
         transition: background 0.3s, opacity 0.3s;
-        user-select: none; /* Evita la selección de texto */
-        -webkit-tap-highlight-color: transparent; /* Mejora la experiencia móvil */
+        user-select: none; /* Evita la selecciÃ³n de texto */
+        -webkit-tap-highlight-color: transparent; /* Mejora la experiencia mÃ³vil */
       }
 
       .nav-btn:hover {
@@ -123,7 +132,7 @@
       }
 
       .nav-btn:disabled {
-        opacity: 0.5; /* Opacidad reducida cuando están deshabilitados */
+        opacity: 0.5; /* Opacidad reducida cuando estÃ¡n deshabilitados */
         cursor: default;
       }
 
@@ -209,8 +218,8 @@
         font-weight: bold;
         z-index: 10;
         transition: background 0.3s, opacity 0.3s;
-        user-select: none; /* Evita la selección de texto */
-        -webkit-tap-highlight-color: transparent; /* Mejora la experiencia móvil */
+        user-select: none; /* Evita la selecciÃ³n de texto */
+        -webkit-tap-highlight-color: transparent; /* Mejora la experiencia mÃ³vil */
       }
 
       .nav-btn:hover {
@@ -218,7 +227,7 @@
       }
 
       .nav-btn:disabled {
-        opacity: 0.3; /* Opacidad reducida cuando están deshabilitados */
+        opacity: 0.3; /* Opacidad reducida cuando estÃ¡n deshabilitados */
         cursor: default;
       }
 
@@ -281,7 +290,7 @@
           opacity: 0;
       }
 
-      /* Animación */
+      /* AnimaciÃ³n */
       @keyframes aparecer {
           from {
               transform: translateY(30px);
@@ -298,10 +307,103 @@
       }
 
       /* --------------------------------------------- */
+    /* Estilos para el quiz */
+    .quiz-screen{
+      position: fixed;
+      inset:0;  
+      background:rgba(0,0,0,0.5);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      z-index:30;
+      padding: max(16px, env(safe-area-inset-top)) 16px max(16px, env(safe-area-inset-bottom));
+    }
+    .quiz-box{
+      background:white;
+      width:min(92vw, 340px);
+      max-width:340px;
+      padding:18px;
+      border-radius:20px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.2);
+    }
 
+    .quiz-box h2{
+      margin: 0 0 10px;
+      font-size: clamp(1rem, 4.5vw, 1.2rem);
+      line-height: 1.3;
+      color:#b21f66;
+    }
+
+    #answers button{
+      font-size: clamp(0.95rem, 4vw, 1rem);
+      padding: 11px 10px;
+      line-height: 1.25;
+    }
+
+    .quiz-progress{
+      margin: 6px 0 0;
+      font-size: 0.85rem;
+      color:#7a4e7c;
+      text-align:center;
+    }
+
+    button{
+      display:block;
+      width:100%;
+      margin:10px 0;
+      padding:12px;
+      border:none;
+      border-radius:12px;
+      font-size:16px;
+      cursor:pointer;
+      background:#ff69b4;
+      color:white;
+      transition:0.3s;
+    }
+
+    button:hover{
+      background:#ff3f9e;
+    }
+
+    .hidden{
+      display:none;
+    }
+
+    @media (max-width: 375px) and (max-height: 812px) {
+      .scene {
+        width: 230px;
+        height: 205px;
+      }
+
+      .heart-base,
+      .heart-lid {
+        width: 230px;
+        height: 205px;
+      }
+
+      h1 {
+        font-size: 1.2rem;
+      }
+
+      p {
+        font-size: 0.85rem;
+      }
+    }
   </style>
 </head>
 <body>
+  <div class="quiz-screen" id="quizScreen">
+    <div class="quiz-box" id="quizBox">
+      <h2 id="question"></h2>
+      <div id="answers"></div>
+      <p class="quiz-progress" id="quizProgress"></p>
+    </div>
+    <div class="quiz-box hidden" id="resultBox">
+      <h2 id="resultText"></h2>
+      <button id="startBtn">Abrir coraz&oacute;n</button>
+    </div>
+  </div>
+
   <div class="scene" id="scene">
     <div class="heart-base"></div>
     <div class="heart-lid" id="lid"></div>
@@ -313,7 +415,7 @@
 
     <div class="container">
       <div id="mensajeAniversario" class="aniversario oculto">
-          <h5>¡Feliz mesiversario mi amor!🎉</h4>  
+          <h5>Â¡Feliz mesiversario mi amor!ðŸŽ‰</h4>  
           <h6>Gracias otro mes hermoso juntos.</h6>
       </div>
     </div>
@@ -327,67 +429,68 @@
         <div class="carousel-track" id="track">
             <div class="slide">
                 <img src="images/diciembre.jpg" alt="foto1">
-                <p>✨ Los ojitos que me enamoraron</p>
+                <p>âœ¨ Los ojitos que me enamoraron</p>
             </div>
 
             <div class="slide">
                 <video src="images/enero.mp4" autoplay muted loop playsinline></video>
-                <p>🌹 Como no enamorarme con esos ojitos</p>
+                <p>ðŸŒ¹ Como no enamorarme con esos ojitos</p>
             </div>
 
             <div class="slide">
                 <video src="images/febrero.mp4" autoplay muted loop playsinline></video>
-                <p>💕 Me encanta pasar tiempo contigo</p>
+                <p>ðŸ’• Me encanta pasar tiempo contigo</p>
             </div>
 
             <div class="slide">
                 <video src="images/marzo.mp4" autoplay muted loop playsinline></video>
-                <p>💞 No hay paisaje m&aacute;s hermoso que tu cuerpo</p>
+                <p>ðŸ’ž No hay paisaje m&aacute;s hermoso que tu cuerpo</p>
             </div>
 
             <div class="slide">
                 <img src="images/abril.jpg">
-                <p>🥰 Todav&iacute;a me pongo nervioso al verte</p>
+                <p>ðŸ¥° Todav&iacute;a me pongo nervioso al verte</p>
             </div>
 
             <div class="slide">
                 <video src="images/junio.mp4" autoplay muted loop playsinline></video>
-                <p>💘 Cada d&iacute;a me enamoro m&aacute;s de la hermosa persona que sos</p>
+                <p>ðŸ’˜ Cada d&iacute;a me enamoro m&aacute;s de la hermosa persona que sos</p>
             </div>
 
             <div class="slide">
                 <img src="images/julio.png">
-                <p>💋 Cada d&iacute;a me dan m&aacute;s ganas de besar esa boquita</p>
+                <p>ðŸ’‹ Cada d&iacute;a me dan m&aacute;s ganas de besar esa boquita</p>
             </div>
 
             <div class="slide">
                 <img src="images/agosto.jpg">
-                <p>🌹 Cada vez que veo esa carita me roba el corazon</p>
+                <p>ðŸŒ¹ Cada vez que veo esa carita me roba el corazon</p>
             </div>
 
             <div class="slide">
                 <img src="images/septiembre.jpg">
-                <p>❣ Me emociona cada uno de tus te amo</p>
+                <p>â£ Me emociona cada uno de tus te amo</p>
             </div>
 
             <div class="slide">
-                <img src="images/octubre.png">
-                <p>💫 Gracias por todos los momentos hermosos</p>
+                
+                <img id="octubreFoto" src="images/octubre.png" alt="octubre">
+                <p>ðŸ’« Gracias por todos los momentos hermosos</p>
             </div>
 
             <div class="slide">
                 <img src="images/noviembre.jpg">
-                <p>💕 Gracias por hacerme tan bien</p>
+                <p>ðŸ’• Gracias por hacerme tan bien</p>
             </div>
 
             <div class="slide">
                 <img src="images/diciembre25.png">
-                <p>💝 Por muchos m&aacute;s momentos y a&ntilde;os a tu lado</p>
+                <p>ðŸ’ Por muchos m&aacute;s momentos y a&ntilde;os a tu lado</p>
             </div>
 
             <div class="slide">
                 <img src="images/IMG_0154.jpeg">
-                <p>💝 No hay nada m&aacute;s lindo que mirar esa carita</p>
+                <p>ðŸ’ No hay nada m&aacute;s lindo que mirar esa carita</p>
             </div>
         </div>
     </div>
@@ -397,6 +500,7 @@
   <img src="images/extra.png">
   <p>Cada d&iacute;a te amo m&aacute;s y m&aacute;s</p>
 </div>
+<audio id="octubreAudio" src="audio/aventura.wav" preload="auto"></audio>
 
   <script>
     const lid = document.getElementById('lid');
@@ -404,6 +508,21 @@
     const scene = document.getElementById('scene');
     const closeBtn = document.getElementById('closeBtn');
     const endDiv = document.querySelector('.end');
+    const octubreFoto = document.getElementById('octubreFoto');
+    const octubreAudio = document.getElementById('octubreAudio');
+    const quizScreen = document.getElementById('quizScreen');
+    const quizBox = document.getElementById('quizBox');
+    const resultBox = document.getElementById('resultBox');
+    const questionEl = document.getElementById('question');
+    const answersEl = document.getElementById('answers');
+    const resultText = document.getElementById('resultText');
+    const startBtn = document.getElementById('startBtn');
+    const quizProgress = document.getElementById('quizProgress');
+    let canOpenHeart = false;
+
+    if (quizScreen) quizScreen.classList.remove("hidden");
+    if (quizBox) quizBox.classList.remove("hidden");
+    if (resultBox) resultBox.classList.add("hidden");
 
     /* --- NUEVAS REFERENCIAS PARA LOS BOTONES ---
     const prevBtn = document.getElementById('prevBtn');
@@ -411,6 +530,7 @@
     // -------------------------------------------*/
 
     scene.addEventListener('click', () => {
+        if (!canOpenHeart) return;
         lid.classList.add('open');
         setTimeout(() => { scene.classList.add('zoom-in'); }, 700);
 
@@ -472,7 +592,7 @@
         cancelAnimationFrame(animationFrameId);
         animationFrameId = requestAnimationFrame(animation);
         
-        // Para mouse, prevenir selección de texto durante el drag
+        // Para mouse, prevenir selecciÃ³n de texto durante el drag
         if (e.type.includes('mouse')) {
             e.preventDefault();
         }
@@ -535,7 +655,7 @@
     }
 
     // ----------------------------
-    //      REPRODUCCIÓN DE VIDEOS Y BOTONES
+    //      REPRODUCCIÃ“N DE VIDEOS Y BOTONES
     // ----------------------------
 
     function playVideoAtIndex(i) {
@@ -555,7 +675,7 @@
         });
     }
 
-    /* Función para habilitar/deshabilitar los botones de navegación
+    /* FunciÃ³n para habilitar/deshabilitar los botones de navegaciÃ³n
     function updateNavButtons() {
         prevBtn.disabled = index === 0;
         nextBtn.disabled = index === slides.length - 1;
@@ -584,7 +704,8 @@
         
         /* Actualiza el estado de los botones
         updateNavButtons();
-    }*/
+        */
+    }
 
     // ----------------------------
     //      EVENTOS DE GESTOS Y BOTONES
@@ -620,7 +741,7 @@
 
     window.addEventListener('resize', () => moveToIndex(index, false));
 
-    /* --- LISTENERS PARA LOS BOTONES DE NAVEGACIÓN ---
+    /* --- LISTENERS PARA LOS BOTONES DE NAVEGACIÃ“N ---
     prevBtn.addEventListener('click', () => {
         if (index > 0) moveToIndex(index - 1, true);
     });
@@ -630,12 +751,12 @@
     });
     // ------------------------------------------------
 
-    // Iniciar posición y estado de botones
+    // Iniciar posiciÃ³n y estado de botones
     moveToIndex(0, false);
     updateNavButtons();*/
 
     // Verificar si es el mes del aniversario
-    const fechaAniversario = new Date(2024, 11, 10); // Año, Mes (0-11), Día
+    const fechaAniversario = new Date(2024, 11, 10); // AÃ±o, Mes (0-11), DÃ­a
     const hoy = new Date();
     const mesHoy = hoy.getMonth();
     const mesAniversario = fechaAniversario.getMonth();
@@ -644,8 +765,81 @@
         document.getElementById("mensajeAniversario").classList.remove("oculto");
     }
 
-
+    if (octubreFoto && octubreAudio) {
+        octubreFoto.addEventListener('click', () => {
+            octubreAudio.currentTime = 0;
+            octubreAudio.play().catch(() => {});
+        });
     }
+
+    const preguntas = [
+      {
+        pregunta: "¿Dónde fue nuestra primera cita?",
+        opciones: ["El cine", "La plaza", "Mi casa", "El shopping"],
+        correcta: 3
+      },
+      {
+        pregunta: "¿Cuál es mi comida favorita?",
+        opciones: ["Pizza", "Sushi", "Hamburguesa", "Milanesa"],
+        correcta: 3
+      },
+      {
+        pregunta: "¿Qué apodo te digo cuando estoy con mis amigos?",
+        opciones: ["Mi reina", "Vicky", "Mi mujer", "Todas las anteriores"],
+        correcta: 2
+      }
+    ];
+
+    let actual = 0;
+    let puntos = 0;
+
+    function mostrarPregunta() {
+      const p = preguntas[actual];
+      questionEl.textContent = p.pregunta;
+      quizProgress.textContent = `Pregunta ${actual + 1} de ${preguntas.length}`;
+      answersEl.innerHTML = "";
+
+      p.opciones.forEach((opcion, idx) => {
+        const btn = document.createElement("button");
+        btn.textContent = opcion;
+        btn.addEventListener("click", () => responder(idx));
+        answersEl.appendChild(btn);
+      });
+    }
+
+    function responder(idx) {
+      if (idx === preguntas[actual].correcta) {
+        puntos++;
+      }
+      actual++;
+
+      if (actual < preguntas.length) {
+        mostrarPregunta();
+      } else {
+        mostrarResultado();
+      }
+    }
+
+    function mostrarResultado() {
+      quizBox.classList.add("hidden");
+      resultBox.classList.remove("hidden");
+
+      if (puntos >= 2) {
+        resultText.textContent = "Acceso concedido, mi amor.";
+        startBtn.disabled = false;
+      } else {
+        resultText.textContent = "Necesitas conocerme más...";
+        startBtn.disabled = true;
+      }
+    }
+
+    startBtn.addEventListener("click", () => {
+      if (puntos < 2) return;
+      canOpenHeart = true;
+      quizScreen.classList.add("hidden");
+    });
+
+    mostrarPregunta();
 </script>
 </body>
 </html>
